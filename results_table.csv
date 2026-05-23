@@ -1,0 +1,7 @@
+Performance Metric,Agile-Only,Agile+DevOps,Change,95% CI (diff),p-value
+Release Frequency,8 releases/year,25 releases/year,3.1x increase,"[16.06, 16.78]",< 0.001
+Defect Rate,"19 / 1,000 LOC","8 / 1,000 LOC",-57.9% reduction,"[-11.66, -10.96]",< 0.001
+Customer Satisfaction,69%,90%,+21 percentage points,"[20.77, 21.63]",< 0.001
+Deployment Success Rate,84%,93%,+9 percentage points,"[8.48, 9.20]",< 0.001
+MTTR,49 hours,7 hours,-85.7% reduction,"[-42.69, -41.62]",< 0.001
+Development Cycle Time,15 days,5 days,-66.7% reduction,"[-10.18, -9.71]",< 0.001

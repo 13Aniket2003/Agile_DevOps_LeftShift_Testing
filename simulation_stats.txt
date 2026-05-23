@@ -1,0 +1,50 @@
+STATISTICAL TEST RESULTS — Paired t-test on bootstrap means
+==============================================================
+
+Release Frequency
+  Agile-Only mean : 8.50  (SD 0.063)
+  Agile+DevOps mean: 24.92  (SD 0.172)
+  t-statistic      : -8973.131
+  Significance     : *** (p < 0.001)
+  Change           : 3.1x increase
+  95% CI on diff   : [16.06, 16.78]
+
+Defect Rate
+  Agile-Only mean : 19.00  (SD 0.153)
+  Agile+DevOps mean: 7.69  (SD 0.088)
+  t-statistic      : 6401.522
+  Significance     : *** (p < 0.001)
+  Change           : -57.9% reduction
+  95% CI on diff   : [-11.66, -10.96]
+
+Customer Satisfaction
+  Agile-Only mean : 68.98  (SD 0.178)
+  Agile+DevOps mean: 90.18  (SD 0.134)
+  t-statistic      : -9542.437
+  Significance     : *** (p < 0.001)
+  Change           : +21 percentage points
+  95% CI on diff   : [20.77, 21.63]
+
+Deployment Success Rate
+  Agile-Only mean : 84.06  (SD 0.148)
+  Agile+DevOps mean: 92.91  (SD 0.109)
+  t-statistic      : -4813.556
+  Significance     : *** (p < 0.001)
+  Change           : +9 percentage points
+  95% CI on diff   : [8.48, 9.20]
+
+MTTR
+  Agile-Only mean : 49.08  (SD 0.253)
+  Agile+DevOps mean: 6.92  (SD 0.105)
+  t-statistic      : 15430.205
+  Significance     : *** (p < 0.001)
+  Change           : -85.7% reduction
+  95% CI on diff   : [-42.69, -41.62]
+
+Development Cycle Time
+  Agile-Only mean : 15.06  (SD 0.106)
+  Agile+DevOps mean: 5.11  (SD 0.053)
+  t-statistic      : 8355.165
+  Significance     : *** (p < 0.001)
+  Change           : -66.7% reduction
+  95% CI on diff   : [-10.18, -9.71]
