@@ -5,13 +5,11 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from scipy import stats
 
-# ── 0. CONFIG ─────────────────────────────────────────────────────────────
 CSV_FILE   = "agile_devops_simulation_dataset.csv"
-OUTPUT_DIR = "."          # all outputs go here
-N_BOOTSTRAP = 10_000      # Monte Carlo iterations
+OUTPUT_DIR = "."          
+N_BOOTSTRAP = 10_000      
 SEED        = 42
 
-# Colours matching paper figures (blue = Agile-only, orange = Agile+DevOps)
 C_AGILE  = "#5B9BD5"
 C_DEVOPS = "#ED7D31"
 
@@ -87,7 +85,6 @@ for m in metrics:
     a_vals = df[m["col_a"]].values.astype(float)
     d_vals = m_d_vals = df[m["col_d"]].values.astype(float)
 
-    # Bootstrap: resample with replacement N_BOOTSTRAP times
     boot_a = np.array([rng.choice(a_vals, size=len(a_vals), replace=True).mean()
                        for _ in range(N_BOOTSTRAP)])
     boot_d = np.array([rng.choice(d_vals, size=len(d_vals), replace=True).mean()
@@ -96,14 +93,12 @@ for m in metrics:
     mean_a = round(boot_a.mean())
     mean_d = round(boot_d.mean())
 
-    # 95 % CI on the difference (DevOps − Agile)
     diff = boot_d - boot_a
     ci_lo, ci_hi = np.percentile(diff, [2.5, 97.5])
 
-    # Paired t-test on bootstrap means
     t_stat, p_val = stats.ttest_rel(boot_a, boot_d)
 
-    # Change label
+    
     if m["name"] == "Release Frequency":
         change_val  = round(mean_d / mean_a, 1)
         change_str  = f"{change_val}x increase"
@@ -116,7 +111,7 @@ for m in metrics:
         change_str  = f"+{pts} percentage points"
         change_val  = pts
 
-    # Format display values
+  
     if m["unit"] == "releases / year":
         a_str = f"{mean_a} releases/year"
         d_str = f"{mean_d} releases/year"
@@ -207,7 +202,7 @@ def save_bar(mean_a, mean_d, metric_name, unit, fig_name, lower_is_better):
                   color=[C_AGILE, C_DEVOPS],
                   width=0.45, edgecolor="white", linewidth=1.2)
 
-    # Value labels on bars
+   
     for bar, val in zip(bars, [mean_a, mean_d]):
         ax.text(bar.get_x() + bar.get_width() / 2,
                 bar.get_height() + max(mean_a, mean_d) * 0.02,
@@ -221,7 +216,6 @@ def save_bar(mean_a, mean_d, metric_name, unit, fig_name, lower_is_better):
     ax.set_axisbelow(True)
     ax.spines[["top", "right"]].set_visible(False)
 
-    # Improvement arrow annotation
     if lower_is_better:
         pct = round((mean_a - mean_d) / mean_a * 100, 1)
         label = f"DOWN {pct}% reduction"
@@ -243,6 +237,7 @@ def save_bar(mean_a, mean_d, metric_name, unit, fig_name, lower_is_better):
     plt.tight_layout()
     path = os.path.join(OUTPUT_DIR, fig_name)
     plt.savefig(path, dpi=180, bbox_inches="tight")
+    plt.show()
     plt.close()
     print(f"  Saved: {fig_name}")
 
@@ -274,7 +269,6 @@ ax.set_axisbelow(True)
 ax.spines[["top", "right"]].set_visible(False)
 ax.legend(fontsize=11)
 
-# Source note
 ax.text(0.01, 0.02,
         "Sources: DORA State of DevOps Report [14]; Digital.ai State of Agile [15]",
         transform=ax.transAxes, fontsize=7, color="grey", va="bottom")
@@ -282,10 +276,10 @@ ax.text(0.01, 0.02,
 plt.tight_layout()
 adop_path = os.path.join(OUTPUT_DIR, "adoption_trends.png")
 plt.savefig(adop_path, dpi=180, bbox_inches="tight")
+plt.show()
 plt.close()
 print(f"  Saved: adoption_trends.png")
 
-# ── 9. COMBINED SUMMARY BAR CHART (all 6 side-by-side) ───────────────────
 print("\nGenerating combined overview chart …")
 fig, axes = plt.subplots(2, 3, figsize=(14, 7))
 axes = axes.flatten()
@@ -309,16 +303,17 @@ for i, (m, r) in enumerate(zip(metrics, results)):
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(labelsize=8)
 
-# Legend
 patch_a = mpatches.Patch(color=C_AGILE,  label="Agile-Only")
 patch_d = mpatches.Patch(color=C_DEVOPS, label="Agile+DevOps")
 fig.legend(handles=[patch_a, patch_d], loc="lower center",
-           ncol=2, fontsize=11, frameon=True, bbox_to_anchor=(0.5, -0.02))
+           ncol=2, fontsize=11, frameon=True, bbox_to_anchor=(0.5, 0.03))
 
 fig.suptitle("Agile-Only vs Agile+DevOps — All KPIs (N = 500 projects)",
-             fontsize=13, fontweight="bold", y=1.01)
-plt.tight_layout()
+             fontsize=13, fontweight="bold", y=0.97)
+fig.subplots_adjust(left=0.08, right=0.98, top=0.88, bottom=0.16,
+                    wspace=0.3, hspace=0.4)
 combined_path = os.path.join(OUTPUT_DIR, "fig_combined_overview.png")
-plt.savefig(combined_path, dpi=180, bbox_inches="tight")
+plt.savefig(combined_path, dpi=180, bbox_inches="tight", pad_inches=0.2)
+plt.show()
 plt.close()
 print(f"  Saved: fig_combined_overview.png")
